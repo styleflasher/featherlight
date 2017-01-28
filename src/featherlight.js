@@ -556,6 +556,9 @@
 			},
 
 			beforeOpen: function(_super, event) {
+				// Used to disable scrolling
+				$(document.documentElement).addClass('with-featherlight');
+
 				// Remember focus:
 				this._previouslyActive = document.activeElement;
 
@@ -578,12 +581,17 @@
 
 			afterClose: function(_super, event) {
 				var r = _super(event);
+				// Restore focus
 				var self = this;
 				this._$previouslyTabbable.removeAttr('tabindex');
 				this._$previouslyWithTabIndex.each(function(i, elem) {
 					$(elem).attr('tabindex', self._previousWithTabIndices[i]);
 				});
 				this._previouslyActive.focus();
+				// Restore scroll
+				if(Featherlight.opened().length === 0) {
+					$(document.documentElement).removeClass('with-featherlight');
+				}
 				return r;
 			},
 
