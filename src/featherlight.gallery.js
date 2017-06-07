@@ -131,6 +131,7 @@
 			var self = this,
 				source = self.slides(),
 				len = source.length,
+				fadeableContent,
 				$inner = self.$instance.find('.' + self.namespace + '-inner');
 			index = ((index % len) + len) % len; /* pin index to [0, len[ */
 
@@ -142,7 +143,12 @@
 			).always(function($newContent) {
 					self.setContent($newContent);
 					self.afterContent();
-					$newContent.fadeTo(self.galleryFadeIn,1);
+
+					fadeableContent  = $newContent.filter(function(){
+						return this.nodeType === 1;
+					});
+					fadeableContent.fadeTo(self.galleryFadeIn,1);
+
 			});
 		},
 
